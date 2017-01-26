@@ -1,9 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const VENDORS = [
-  'clarifai'
+  'clarifai', 'jquery'
 ];
 
 module.exports = {
@@ -25,8 +26,21 @@ module.exports = {
       {
         use: ['style-loader', 'css-loader'],
         test: /\.css$/
+      },
+      {
+        use : 'file-loader',
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/
+      },
+      {
+        use: "file-loader",
+        test: /\.(jpe?g|png|gif|svg)$/
       }
     ]
+  },
+  resolve: {
+    alias: {
+      jquery: "jquery/src/jquery"
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -37,6 +51,10 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+        { from: './style', to: './style' }, 
+        { from: './images', to: './images'}
+      ])
   ]
 };

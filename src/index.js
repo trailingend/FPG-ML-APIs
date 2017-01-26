@@ -1,6 +1,29 @@
-var Clarifai = require('clarifai');
+import ClarifaiInstance from './clarifai-instance';
+import {isValidUrl} from './utils';
+import $ from 'jquery';
 
-var app = new Clarifai.App(
-  '{BJ9wSxnLvrjDAwKA7M9Ih44pk6xdIxMKtJml4uE3}',
-  '{KjoJE-Zoomb3u95p3Qw8EeBsTwzXjvJLo-WykZZC}'
-);
+
+// instantiate a new Clarifai app passing in your clientId and clientSecret
+$(window).on('load', ()=>{
+	const instance = new ClarifaiInstance();
+	//'https://samples.clarifai.com/metro-north.jpg'
+	let input = handleInputForm(instance);
+
+});
+
+const handleInputForm = (instance) => {
+	let input = '';
+	$('#home-input-btn').on('click', ()=> {
+		input =  $("#home-input-url").val();
+		$("#home-input-url").val('');
+		if (input === '') {
+			console.log("initializing");
+		} else if (isValidUrl(input)) {
+			console.log("VALID URL: " + input);
+			// instance.predict(input);
+		} else {
+			console.log("INVALID URL: " + input);
+		}
+	});
+
+}
