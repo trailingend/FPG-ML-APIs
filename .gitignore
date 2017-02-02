@@ -40,3 +40,4 @@ jspm_packages
 #Local storage
 .DS_Store
 dist
+.json
